@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Contacto</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div th:replace="~{fragments/header :: header}"></div>
+<main class="container">
+    <section class="form-card">
+        <h1>Contacto</h1>
+        <p>
+            Si tienes cualquier duda, sugerencia o problema,
+            puedes escribirnos mediante este formulario.
+        </p>
+        <!-- MENSAJE DE CONFIRMACIÓN -->
+        <div th:if="${enviado}" class="mensaje-exito">
+            ✔️ Tu mensaje ha sido enviado correctamente.
+        </div>
+        <!-- FORMULARIO -->
+        <form th:action="@{/contacto}" method="post">
+            <div>
+                <label>Nombre</label>
+                <input type="text" name="nombre" required>
+            </div>
+            <div>
+                <label>Email</label>
+                <input type="email" name="email" required>
+            </div>
+            <div>
+                <label>Mensaje</label>
+                <textarea name="mensaje" required></textarea>
+            </div>
+            <div class="acciones-form">
+                <button type="submit" class="btn">
+                    Enviar mensaje
+                </button>
+                <a th:href="@{/}" class="btn btn-secondary">
+                    Cancelar
+                </a>
+            </div>
+        </form>
+    </section>
+</main>
+</body>
+</html>

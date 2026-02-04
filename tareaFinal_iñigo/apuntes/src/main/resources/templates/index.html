@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Intercambio de Apuntes</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<!-- HEADER GLOBAL -->
+<div th:replace="~{fragments/header :: header}"></div>
+<main class="container">
+    <!-- CABECERA DE PÁGINA -->
+    <section class="page-header">
+        <p class="subtitle">Listado de apuntes disponibles</p>
+    </section>
+    <section class="bloque">
+        <form method="get" action="/" class="form-inline">
+            <input type="text"
+                   name="q"
+                   th:value="${q}"
+                   placeholder="Buscar por título..."
+                   style="flex:1; padding:8px">
+            <select name="asignaturaId">
+                <option value="">Todas las asignaturas</option>
+                <option th:each="asig : ${asignaturas}"
+                        th:value="${asig.id}"
+                        th:text="${asig.nombre}"
+                        th:selected="${asignaturaId == asig.id}">
+                </option>
+            </select>
+            <button type="submit" class="btn">
+                Filtrar
+            </button>
+            <a th:if="${q != null or asignaturaId != null}"
+               th:href="@{/}"
+               class="btn btn-logout">
+                Limpiar
+            </a>
+        </form>
+    </section>
+    <!-- LISTADO DE APUNTES -->
+    <div class="apuntes">
+        <div class="apunte" th:each="apunte : ${apuntes}">
+            <a th:href="@{/apuntes/{id}(id=${apunte.id})}">
+                <h2 th:text="${apunte.titulo}">Título</h2>
+                <p class="descripcion"
+                   th:text="${apunte.descripcion}">
+                    Descripción
+                </p>
+                <div class="meta">
+                    <span>
+                        📘 <strong th:text="${apunte.asignatura.nombre}"></strong>
+                    </span>
+                    <span>
+                        👤 <span th:text="${apunte.usuario.username}"></span>
+                    </span>
+                </div>
+            </a>
+        </div>
+    </div>
+</main>
+</body>
+</html>

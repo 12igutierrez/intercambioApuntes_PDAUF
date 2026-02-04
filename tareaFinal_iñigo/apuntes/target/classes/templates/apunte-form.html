@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${apunte.id == null ? 'Nuevo Apunte' : 'Editar Apunte'}">
+        Apunte
+    </title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div th:replace="~{fragments/header :: header}"></div>
+<main class="container">
+    <section class="form-card">
+        <h1 th:text="${apunte.id == null ? 'Crear nuevo apunte' : 'Editar apunte'}">
+            Apunte
+        </h1>
+        <form th:action="${apunte.id == null}
+                         ? @{/apuntes/nuevo}
+                         : @{/apuntes/{id}/editar(id=${apunte.id})}"
+              th:object="${apunte}"
+              method="post">
+            <!-- TÍTULO -->
+            <div>
+                <label>Título</label>
+                <input type="text"
+                       th:field="*{titulo}"
+                       required>
+            </div>
+            <!-- ASIGNATURA -->
+            <div>
+                <label>Asignatura</label>
+                <select th:field="*{asignatura}" required>
+                    <option value="">Selecciona una asignatura</option>
+                    <option th:each="asig : ${asignaturas}"
+                            th:value="${asig.id}"
+                            th:text="${asig.nombre}">
+                    </option>
+                </select>
+            </div>
+            <!-- DESCRIPCIÓN -->
+            <div>
+                <label>Descripción</label>
+                <textarea th:field="*{descripcion}" required></textarea>
+            </div>
+            <!-- BOTONES -->
+            <div style="display:flex; gap:12px; margin-top:20px;">
+                <button type="submit" class="btn">
+                    Guardar
+                </button>
+                <a th:href="@{/}" class="btn btn-logout">
+                    Cancelar
+                </a>
+            </div>
+        </form>
+    </section>
+</main>
+</body>
+</html>
