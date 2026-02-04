@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<body>
+<th:block th:fragment="header">
+    <header class="main-header">
+        <div class="container">
+            <div class="logo">
+                <a th:href="@{/}">Intercambio de Apuntes</a>
+            </div>
+            <nav class="user-nav">
+                <!-- Usuario NO autenticado -->
+                <a sec:authorize="!isAuthenticated()"
+                   th:href="@{/login}"
+                   class="btn">
+                    Iniciar sesión
+                </a>
+                <!-- Usuario autenticado -->
+                <div sec:authorize="isAuthenticated()"
+                     class="user-info">
+                    <span sec:authentication="name"></span>
+                    <form th:action="@{/logout}" method="post">
+                        <button type="submit" class="btn btn-logout">
+                            Cerrar sesión
+                        </button>
+                    </form>
+                </div>
+                <a th:if="${#authorization.expression('isAuthenticated()')}"
+                   th:href="@{/apuntes/nuevo}"
+                   class="btn">
+                    + Nuevo apunte
+                </a>
+                <a th:href="@{/contacto}" class="btn">
+                    Contacto
+                </a>
+            </nav>
+        </div>
+    </header>
+</th:block>
+</body>
+</html>
